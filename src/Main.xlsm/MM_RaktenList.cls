@@ -313,11 +313,10 @@ Private Sub CheckBackOrder(BrandCode_ As String, OpenDate_ As String, OpenPrice_
             'V302版
 '            Call myOrder.PublishCloseWithStop(OpenDate_, OpenPrice_)
             
-            'V303版
-            'V303ではオープンオーダー生成とクローズオーダー生成を分離
+            'V402版
+            'オープンオーダー生成とクローズオーダー生成を分離
             Call OrderModule.CreateNewPosition(myOrder, OpenDate_, OpenPrice_)
-'            Call createNewCloseOrder(myOrder, OpenDate_, OpenPrice_)
-            
+
             '-----------------
             'myDicBackOrderディクショナリから削除
             '-----------------
@@ -330,24 +329,6 @@ Private Sub CheckBackOrder(BrandCode_ As String, OpenDate_ As String, OpenPrice_
         End If
     Next i
 End Sub
-
-'Private Sub createNewCloseOrder(Order_ As ORDER, OpenDate_ As String, OpenPrice_ As String)
-'    '------------------------
-'    '新規クローズオーダー生成
-'    '------------------------
-'    Dim myCloseOrder As CloseOrder
-'    Set myCloseOrder = New CloseOrder
-'    Call myCloseOrder.Init(Order_, OpenDate_, OpenPrice_)
-'
-'    '----------------------
-'    '逆指値付通常注文を発行
-'    '----------------------
-'    Call myCloseOrder.PublishCloseWithStop 'クローズオーダー発行に必要なプロパティ(OpenDate,OpenPrice)は上記でセット済のオープンオーダーインスタンスのものを使う
-'
-'End Sub
-
-
-
 
 '全列データを配列に
 '渡された２次元配列の指定行（index_）の列データを配列にして返す
