@@ -16,13 +16,13 @@ Attribute myFuture.VB_VarHelpID = -1
 Private WithEvents myStock As Stock
 Attribute myStock.VB_VarHelpID = -1
 
-Private myOrder As iORDER
+Private myPosition As iPOSITION
 
-Private Sub iAUTOEXIT_Init(Order_ As iORDER)
+Private Sub iAUTOEXIT_Init(Position_ As iPOSITION)
     
-    Set myOrder = Order_
+    Set myPosition = Position_
     Dim myBrand As iBRAND
-    Set myBrand = myOrder.myStra.Brand
+    Set myBrand = myPosition.myStra.Brand
     If TypeOf myBrand Is Future Then Set myFuture = myBrand
     If TypeOf myBrand Is Stock Then Set myStock = myBrand
 

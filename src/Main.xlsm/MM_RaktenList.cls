@@ -250,7 +250,9 @@ Private Sub PList_Change(ByVal Target As Range)
                     '-----------------------
                     'クローズオーダー自動発行
                     '-----------------------
-                    Call CheckBackOrder(BrandCode, OpenDate, OpenPrice)
+                    Dim NeedQuantity As String  'オーダー件数 - オーダー済件数
+                    NeedQuantity = OpenQuantity - ClosedQuantity
+                    Call CheckBackOrder(BrandCode, OpenDate, OpenPrice, NeedQuantity)
                     
                 Else
                     '----------------------------
@@ -284,14 +286,14 @@ End Sub
 '---------------
 'setBackOrder
 'Olistの更新時にStatusが約定ならばDEALクラスからCallされる
-Public Sub setBackOrder(Order_ As iORDER)
+Public Sub SetBackOrder(Order_ As iORDER)
     If Not myDicBackOrder.Exists(Order_.OrderNO) Then
         Call myDicBackOrder.Add(Order_.OrderNO, Order_)
         Debug.Print "addBackOrder:DicBackOrderを追加しました OrderNO="; Order_.OrderNO
     End If
 End Sub
 
-Private Sub CheckBackOrder(BrandCode_ As String, OpenDate_ As String, OpenPrice_ As String)
+Private Sub CheckBackOrder(BrandCode_ As String, OpenDate_ As String, OpenPrice_ As String, NeedQuantity_ As String)
     If myDicBackOrder.Count = 0 Then Exit Sub
     
     Dim myOrderNO As String 'DicBackOrderの格納キーでもある
@@ -306,17 +308,18 @@ Private Sub CheckBackOrder(BrandCode_ As String, OpenDate_ As String, OpenPrice_
         'BrandCodeが一致しているか
         If myOrder.myStra.Brand.BrandCode = BrandCode_ Then
             
-            '-----------------------
-            'クローズオーダーを発行する
-            '-----------------------
-            Debug.Print "クローズオーダーを発行する", myOrderNO
-            'V302版
-'            Call myOrder.PublishCloseWithStop(OpenDate_, OpenPrice_)
-            
+            Debug.Print "新規ポジションの生成", myOrderNO
             'V402版
-            'オープンオーダー生成とクローズオーダー生成を分離
-            Call OrderModule.CreateNewPosition(myOrder, OpenDate_, OpenPrice_)
-
+            '--------------
+            '新規ポジションの生成(クローズオーダー)
+            '--------------
+            Dim myPosition As iPOSITION
+            If TypeOf Order_ Is FutureOrder Then Set myPosition = New FuturePosition
+            If TypeOf Order_ Is StockOrder Then Set myPosition = New StockPosition
+            If TypeOf Order_ Is DummyOrder Then Set myPosition = New DummyPosition
+            
+            Call myPosition.Init(Order_, OpenDate_, OpenPrice_, NeedQuantity_)
+            
             '-----------------
             'myDicBackOrderディクショナリから削除
             '-----------------

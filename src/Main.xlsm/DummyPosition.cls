@@ -23,12 +23,12 @@ Private SerialNO As String
 
 Private myAutoExit As iAUTOEXIT 'iAUTOEXIT
 Private myOrder As iORDER
-Private OpenPrice As Long
+Private Price As Long
 
-Private Sub iPOSITION_Init(Order_ As Sub402.iORDER, OpenDate_ As String, OpenPrice_ As String)
+Private Sub iPOSITION_Init(Order_ As Sub402.iORDER, OpenDate_ As String, OpenPrice_ As String, NeedQuantity_ As String)
     Set myOrder = Order_
-    OpenPrice = OpenPrice_
-    
+    Price = OpenPrice_
+
     '-----------------
     'イベント受信開始
     '-----------------
@@ -40,7 +40,7 @@ Private Sub iPOSITION_Init(Order_ As Sub402.iORDER, OpenDate_ As String, OpenPri
     
     'シリアルナンバー発行
     SerialNO = NewSerialString
-
+    
     '-----------------
     'ディクショナリに格納
     '-----------------
@@ -48,15 +48,24 @@ Private Sub iPOSITION_Init(Order_ As Sub402.iORDER, OpenDate_ As String, OpenPri
     
     Debug.Print "DummyPosition　iPOSITION_Init", myBrand.BrandName, TypeName(myBrand)
 End Sub
+Private Sub iPOSITION_RssCloseOrder()
+    'ダミーは不要
+End Sub
 Private Property Get iPOSITION_myStra() As Sub402.iSTRA
 
 End Property
 Private Property Get iPOSITION_OrderNO() As String
 
 End Property
+
+
+
 Private Property Get iPOSITION_Quantity() As String
 
 End Property
+
+
+
 Private Property Get iPOSITION_SerialNO() As String
 
 End Property

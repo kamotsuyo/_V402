@@ -174,7 +174,7 @@ End Function
 '---------------
 'setBackOrder
 'Olistの更新時にStatusが約定ならばDEALクラスからCallされる
-Public Sub setBackOrder(Order_ As iORDER)
+Public Sub SetBackOrder(Order_ As iORDER)
     If Not myDicBackOrder.Exists(Order_.OrderNO) Then
         Call myDicBackOrder.Add(Order_.OrderNO, Order_)
         Debug.Print "addBackOrder:DicBackOrderを追加しました OrderNO="; Order_.OrderNO

@@ -8,11 +8,11 @@ Option Explicit
 Private CollStack As Collection
 
 
-Public Sub SetCloseOrder(Order_ As iORDER)
+Public Sub SetBackPosition(Position_ As iPOSITION)
     If CollStack Is Nothing Then Set CollStack = New Collection
     
     'コレクションに格納
-    Call CollStack.Add(Order_)
+    Call CollStack.Add(Position_)
     
     If CollStack.Count > 0 Then
         '-------------
@@ -28,10 +28,11 @@ Public Sub ExecAsync()
 
     'CollStackをループ処理
     Do While CollStack.Count > 0
-        Dim myOrder As iORDER
-        Set myOrder = CollStack.Item(1) '一番古いアイテム：コレクションは１オリジン)
+        Dim myPosition As iPOSITION
+        Set myPosition = CollStack.Item(1) '一番古いアイテム：コレクションは１オリジン)
         
-        Call myOrder.CallbackAsyncCloseOrder
+        'RssCloseOrderをCallして実行する
+        Call myPosition.RssCloseOrder
     
         Call CollStack.Remove(1)
     Loop

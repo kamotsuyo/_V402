@@ -49,8 +49,8 @@ Private StopPriceType As String      '13)逆指価格区分 : {0:成行 , 1:指値}
 Private StopPrice As String          '14)逆指値価格 :  逆指値価格をセット。成行の場合は省略
 
 '固定でよい
-Const ExpiryType = En_ExpiryType.当セッション '9)執行時間条件 : {1:当セッション ,4:引け , 5:期間限定  , 9:取引最終日}
-Const ExpiryDate As String = ""        '10)注文期限 : 執行時間条件が5:期間限定の場合必須。  (string YYYYMMDD)
+Const EXPIRYTYPE = En_ExpiryType.当セッション '9)執行時間条件 : {1:当セッション ,4:引け , 5:期間限定  , 9:取引最終日}
+Const EXPIRYDATE As String = ""        '10)注文期限 : 執行時間条件が5:期間限定の場合必須。  (string YYYYMMDD)
 '********************************************
 
 'IDlistから取得
@@ -63,7 +63,7 @@ Private StopCondition As String
 
 
 Private Sub Class_Initialize()
-    Set MMList = MMRaktenList
+    Set MMList = MainModule.MMList
     TimeStamp = Now
 End Sub
 
@@ -165,8 +165,8 @@ Private Sub RssFOPOpenOrder()
         PriceType, _
         Price, _
         ExecQuantityType, _
-        ExpiryType, _
-        ExpiryDate, _
+        EXPIRYTYPE, _
+        EXPIRYDATE, _
         StopTriggerPrice, _
         StopTriggerType, _
         StopPriceType, _
@@ -224,7 +224,7 @@ Private Sub MMList_OlistChange(OrderNO_ As String, Price_ As String, Status_ As 
         '自動クローズオーダー発行
         '-------------
         If Status = "約定" Then
-            Call MMList.setBackOrder(Me)
+            Call MMList.SetBackOrder(Me)
         End If
         
     End If

@@ -14,7 +14,11 @@ Option Explicit
 '************************
 'このオブジェクトのプロパティ設定：Instancing は [2-PublicNotCreatable]にしておく
 
-Public Sub Init(Order_ As iORDER, OpenDate_ As String, OpenPrice_ As String)
+Public Sub Init(Order_ As iORDER, OpenDate_ As String, OpenPrice_ As String, NeedQuantity_ As String)
+End Sub
+Public Sub RssCloseOrder()
+End Sub
+Public Sub PublishAutoClose()
 End Sub
 Property Get SerialNO() As String
 End Property

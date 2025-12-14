@@ -13,5 +13,5 @@ Option Explicit
 'このオブジェクトのプロパティ設定：Instancing は [2-PublicNotCreatable]にしておく
 
 'InterfaceにPublic は不要
-Sub Init(Order_ As iORDER)
+Sub Init(Position_ As iPOSITION)
 End Sub
