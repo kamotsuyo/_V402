@@ -1,0 +1,99 @@
+Attribute VB_Name = "DealModule"
+Option Explicit
+
+Public Function getStraTotalCount(Stra_ As STRA) As Long
+    Dim Counter As Long
+    
+    Dim TargetOrder As iORDER
+    Dim Key As Variant
+    For Each Key In DicDeal
+        Set TargetOrder = DicDeal.Item(Key)
+        '条件：DEALのストラテジ名称が同一
+        If TargetOrder.myStra.Name = Stra_.Name Then
+            '現状オーダー件数を加算
+            Counter = Counter + TargetOrder.Quantity
+        End If
+    Next
+    getStraTotalCount = Counter
+End Function
+
+Public Function getStraAliveCount(Stra_ As STRA) As Long
+    Dim Counter As Long
+    
+    Dim TargetOrder As iORDER
+    Dim Key As Variant
+    For Each Key In DicDeal
+        Set TargetOrder = DicDeal.Item(Key)
+        '条件：DEALがAliveである
+        '条件：DEALのストラテジ名称が同一
+        If TargetOrder.isAlive And TargetOrder.myStra.Name = Stra_.Name Then
+            '現状オーダー件数を加算
+            Counter = Counter + TargetOrder.Quantity
+        End If
+    Next
+    getStraAliveCount = Counter
+End Function
+
+
+'ストラテジ内部で新規ディール発行の際に使用
+Public Function getNewOrder(Stra_ As STRA, Quantity_ As Long) As iORDER
+    '発行の可否判定
+    '---------------
+    '対象時間外かどうか
+    If Stra_.isOutSideHours Then
+        Set getNewOrder = Nothing
+        'Log
+        FormLog.addListItem Stra_.Name & ":対象時間外"
+        Exit Function
+    End If
+    
+    'オーダーロック中かどうか
+    If Stra_.OrderLock Then
+        Set getNewOrder = Nothing
+        'Log
+        FormLog.addListItem Stra_.Name & ":オーダーロック中"
+        Exit Function
+    End If
+    
+    'オーダーしようとしている数量と現状オーダー数を合わせると規定の最大発注可能を超えないか
+    Dim CurrentOrderQuantity As Long
+    '上記のメソッドgetStraAliveCountを使う
+    CurrentOrderQuantity = getStraAliveCount(Stra_)
+    
+    '判定
+    If CurrentOrderQuantity + Quantity_ > Stra_.MAXORDERQUANTITY Then
+        Set getNewOrder = Nothing
+        'Log
+        FormLog.addListItem Stra_.Name & ":最大発注可能を超える"
+        Exit Function
+    End If
+    
+    '---------------------
+    'ここまで来るとオーダー可である
+    Debug.Print "オーダー可"
+    'オーダー可の場合は
+    'オーダーロック実行
+    Call Stra_.changeOrderLock(True)
+    
+    '------------------
+    'DummyOrder,FutureOrder,StockOrderの分岐
+    '------------------
+    '新規ディールインスタンス生成
+    Dim myDeal As DEAL
+    Select Case Stra_.DealType
+        Case En_DealType.DummyOrder
+            Set myDeal = New DummyOrder
+            
+        Case En_DealType.FutureOrder
+            Set myDeal = New FutureOrder
+        Case En_DealType.StockOrder
+        
+    End Select
+    
+    Call myDeal.Init(Stra_, 1)
+    'DicDealに追加格納 : DEALクラス内で行う
+    
+    '戻り値にセット
+    Set getNewOrder = myDeal
+    
+End Function

@@ -1,0 +1,54 @@
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+END
+Attribute VB_Name = "ThisWorkbook"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Option Explicit
+'******************
+'AddinSub ThisWorkbook
+'V401:2025/12/14作�E開姁E
+'******************
+
+Private Sub Workbook_Open()
+    Me.Windows.Application.Width = 500
+    Me.Windows.Application.Height = 500
+    
+    FormSub.Show vbModeless
+    
+    If SubManager Is Nothing Then
+        Set SubManager = New MM_SubManager
+    End If
+End Sub
+
+Private Sub Workbook_BeforeClose(Cancel As Boolean)
+    FormSub.Hide
+    
+    Set SubManager = Nothing
+    
+    Call DeleteSheetInRule
+    
+End Sub
+
+Private Sub DeleteSheetInRule()
+    Application.DisplayAlerts = False
+    
+    Dim ArrSheets As Variant
+    ArrSheets = Array("RssConn")
+    
+    Dim Ws As Worksheet
+    Dim SheetName As Variant
+    For Each Ws In ThisWorkbook.Sheets
+        For Each SheetName In ArrSheets
+            If Ws.Name = "RssConn" Then
+                Call Ws.Cells.Clear
+                GoTo Skip
+            End If
+            Ws.Delete
+        Next
+Skip:
+    Next
+End Sub

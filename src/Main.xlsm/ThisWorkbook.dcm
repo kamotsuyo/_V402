@@ -1,0 +1,53 @@
+VERSION 1.0 CLASS
+BEGIN
+  MultiUse = -1  'True
+END
+Attribute VB_Name = "ThisWorkbook"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = True
+Option Explicit
+'**自作アドインの参�E設定�E手作業で行うこと
+'*************************
+'Main ThisWorkbook
+'2025/12/12
+'*************************
+
+'SubProjectのシングルトンクラスのインスタンスをイベント受信用に宣言する
+Private WithEvents SubMan As SubProject.MM_SubManager
+Attribute SubMan.VB_VarHelpID = -1
+
+Private Sub Workbook_Open()
+    '持E���Eサイズで開く
+    Me.Windows.Application.Width = 500
+    Me.Windows.Application.Height = 500
+    
+    'SubProjectからのイベント受信用のインスタンスセチE���E�SubProject側でインスタンス生�E渁E
+    Set SubMan = SubProject.SubManager
+    
+End Sub
+
+Private Sub Workbook_BeforeClose(Cancel As Boolean)
+    Call DeleteSheetWithoutSheet1
+End Sub
+
+'-----------------
+'SubProjectからのイベント受信
+'-----------------
+Private Sub SubMan_CodeResolved()
+    '基本フォームを開ぁE
+    FormLog.Show vbModeless
+    F_Strategys.Show vbModeless
+    
+    
+    '-----------------
+    'メインプログラム起勁E
+    '-----------------
+    Call MainModule.Start
+End Sub
+
+Private Sub SubMan_ConnctChange(Status_ As String)
+    Debug.Print "Man_ConnctChange", Status_
+    '特段なにもしなぁE
+End Sub

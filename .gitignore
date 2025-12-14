@@ -1,9 +1,12 @@
 #コメントは "#"
+
 #以下の拡張子ファイルは除外
 *.log
 # Excelマクロファイル
-*.xlsm
-# Excelアドインファイル
-*.xlam
+#/を先頭につけて.gitignoreがあるディレクトリ直下のみ対象とする
+#直下にあるMain.xlsmとsub.xlam本体のエクセルファイルはGit管理対象から除外
+#しかし、サブフォルダsrcの下のMain.xlsm,Sub.xlamフォルダは管理対象になる
+/*.xlsm 
+/*.xlam
 # Excelバイナリフォームファイル
 # *.frx
