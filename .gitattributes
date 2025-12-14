@@ -1,0 +1,9 @@
+# Auto detect text files and perform LF normalization
+#*.bas diff=sjis
+#*.cls diff=sjis
+#*.frm diff=sjis
+#*.txt diff=sjis
+# 2025/3/14 kamogashira
+#*.dcm diff=sjis
+*.* diff=sjis
+# * text=auto
