@@ -312,7 +312,7 @@ Private Sub CheckBackOrder(BrandCode_ As String, OpenDate_ As String, OpenPrice_
             Debug.Print "クローズオーダーを発行する", myOrderNO
             'V302版
 '            Call myOrder.PublishCloseWithStop(OpenDate_, OpenPrice_)
-
+            
             'V303版
             'V303ではオープンオーダー生成とクローズオーダー生成を分離
             Call OrderModule.CreateNewPosition(myOrder, OpenDate_, OpenPrice_)

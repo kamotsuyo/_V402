@@ -85,6 +85,8 @@ Private Sub iORDER_PublishOpen(BuySell_ As SubProject.En_Buysell, Price_ As Long
     '---------------------
     'DummyPosition生成実行
     '---------------------
+    'Future,Stockの場合はMM_RaktenList内からCreateNewPositionがCallされる
+    'DummyOrderの場合、MM_RaktenListによる更新は存在しないので、この場面で直接CreateNewPosition実行する
     Call OrderModule.CreateNewPosition(Me, CStr(TimeStamp), Price)
     
 End Sub

@@ -12,10 +12,12 @@ Option Explicit
 Implements iPOSITION
 '#####################
 
+'規定のStanderd損益になればExitするためのイベント受信用
+'ダミーの場合はFuture,Stock両方必要：(先物のダミー、株式のダミーどちらも対応するので）
 Private WithEvents myFuture As Future
-Attribute myFuture.VB_VarHelpID = -1
 Private WithEvents myStock As Stock
-Attribute myStock.VB_VarHelpID = -1
+
+Private SerialNO As String
 
 Private myAutoExit As iAUTOEXIT 'iAUTOEXIT
 Private myOrder As iORDER
@@ -30,11 +32,19 @@ Private Sub iPOSITION_Init(Order_ As SubProject.iORDER, OpenDate_ As String, Ope
     '-----------------
     Dim myBrand As iBRAND
     Set myBrand = Order_.myStra.Brand
-    'FINANCIALPRODCTの判定
+    'iBRANDの判定
     If TypeOf myBrand Is Future Then Set myFuture = myBrand
     If TypeOf myBrand Is Stock Then Set myStock = myBrand
     
-    Debug.Print "iPOSITION_Init", myBrand.BrandName, "HOgehoge"
+    'シリアルナンバー発行
+    SerialNO = NewSerialString
+
+    '-----------------
+    'ディクショナリに格納
+    '-----------------
+    Call DicPosition.Add(SerialNO, Me)
+    
+    Debug.Print "DummyPosition　iPOSITION_Init", myBrand.BrandName, typename(mybrand)
 End Sub
 Private Property Get iPOSITION_myStra() As SubProject.iSTRA
 
@@ -103,6 +113,7 @@ End Sub
 'イベント受信
 '------------------
 Private Sub myFuture_Change(Future_ As Future)
+    debug.print "DummyPosition myFuture_Change" ,future_.tehoricprice
     Call CheckExit(Future_)
 End Sub
 
