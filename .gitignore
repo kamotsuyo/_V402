@@ -6,4 +6,4 @@
 # Excelアドインファイル
 *.xlam
 # Excelバイナリフォームファイル
-*.frx
+# *.frx
