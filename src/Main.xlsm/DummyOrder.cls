@@ -35,7 +35,7 @@ Private isAlive As Boolean   '約定・取消済でない
 
 '[iORDER]共通プロパティ
 '=========================
-Private Sub iORDER_Init(Stra_ As SubProject.iSTRA, Quantity_ As String)
+Private Sub iORDER_Init(Stra_ As Sub402.iSTRA, Quantity_ As String)
     '注釈：オーダーロックは前段階のgetNewDeal内でTrueにセット済。ここでは不要
     
     '------------
@@ -63,7 +63,7 @@ Private Sub iORDER_Init(Stra_ As SubProject.iSTRA, Quantity_ As String)
 '    If TypeOf Stra_.Brand Is Stock Then Set myStock = Stra_.Brand
 
 End Sub
-Private Sub iORDER_PublishOpen(BuySell_ As SubProject.En_Buysell, Price_ As Long)
+Private Sub iORDER_PublishOpen(BuySell_ As Sub402.En_Buysell, Price_ As Long)
 
     BuySell = BuySell_
     Price = Price_

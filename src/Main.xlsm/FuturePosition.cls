@@ -12,10 +12,10 @@ Option Explicit
 Implements iPOSITION
 '#####################
 
-Private Sub iPOSITION_Init(Order_ As SubProject.iORDER, OpenDate_ As String, OpenPrice_ As String)
+Private Sub iPOSITION_Init(Order_ As Sub402.iORDER, OpenDate_ As String, OpenPrice_ As String)
 
 End Sub
-Private Property Get iPOSITION_myStra() As SubProject.iSTRA
+Private Property Get iPOSITION_myStra() As Sub402.iSTRA
 
 End Property
 Private Property Get iPOSITION_OrderNO() As String

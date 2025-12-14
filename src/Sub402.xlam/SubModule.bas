@@ -157,3 +157,67 @@ Public Function GetRound5Up(Str_ As String) As String
     Const BASE As Integer = 5
     GetRound5Up = Int(Val(Str_) / BASE) * BASE + BASE
 End Function
+
+
+'クローズポジション生成時のメソッド
+
+'----------------
+'CloseOrderを自動生成する
+'----------------
+'Olist主体でCloseOrderを生成する
+'直接のMarketSpeedの注文には反応しない
+'リストイベントの発生順を以下の順序と判断している
+'1)Olistの更新：約定のステータス受信
+'2)Plistの新規データ発生
+'Plistのみの新規データ発生には反応しない：直接のMarketSpeedの注文には反応しない
+
+'---------------
+'setBackOrder
+'Olistの更新時にStatusが約定ならばDEALクラスからCallされる
+Public Sub setBackOrder(Order_ As iORDER)
+    If Not myDicBackOrder.Exists(Order_.OrderNO) Then
+        Call myDicBackOrder.Add(Order_.OrderNO, Order_)
+        Debug.Print "addBackOrder:DicBackOrderを追加しました OrderNO="; Order_.OrderNO
+    End If
+End Sub
+
+'V402
+Public Sub CheckBackOrder(BrandCode_ As String, OpenDate_ As String, OpenPrice_ As String)
+    If myDicBackOrder.Count = 0 Then Exit Sub
+    
+    Dim myOrderNO As String 'DicBackOrderの格納キーでもある
+    Dim myOrder As SubProject.iORDER
+
+    Dim i As Integer
+    For i = 0 To myDicBackOrder.Count - 1 'ディクショナリは０オリジン :古い順に走査
+        'BrandCodeが一致していればクローズオーダーを発行する
+        myOrderNO = myDicBackOrder.Keys(i)
+        Set myOrder = myDicBackOrder.Item(myOrderNO)
+        
+        'BrandCodeが一致しているか
+        If myOrder.myStra.Brand.BrandCode = BrandCode_ Then
+            
+            '-----------------------
+            'クローズオーダーを発行する
+            '-----------------------
+            Debug.Print "クローズオーダーを発行する", myOrderNO
+            'V302版
+'            Call myOrder.PublishCloseWithStop(OpenDate_, OpenPrice_)
+
+            'V303版
+            'V303ではオープンオーダー生成とクローズオーダー生成を分離
+            Call OrderModule.CreateNewPosition(myOrder, OpenDate_, OpenPrice_)
+'            Call createNewCloseOrder(myOrder, OpenDate_, OpenPrice_)
+            
+            '-----------------
+            'myDicBackOrderディクショナリから削除
+            '-----------------
+            Call myDicBackOrder.Remove(myOrderNO)
+            'Forループから抜ける
+            Exit For
+        Else
+            'BrandCodeが一致していない
+            'なにもしない
+        End If
+    Next i
+End Sub

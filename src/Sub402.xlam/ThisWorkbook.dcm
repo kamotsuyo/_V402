@@ -10,41 +10,50 @@ Attribute VB_Exposed = True
 Option Explicit
 '******************
 'AddinSub ThisWorkbook
-'V401:2025/12/14菴懈・髢句ｧ・
 '******************
 
 Private Sub Workbook_Open()
+    '指定のサイズで開く
     Me.Windows.Application.Width = 500
     Me.Windows.Application.Height = 500
     
+    'フォームを開く
     FormSub.Show vbModeless
     
+    'SubManagerはModuleにおいて公開プロパティとして宣言済
     If SubManager Is Nothing Then
         Set SubManager = New MM_SubManager
     End If
 End Sub
 
 Private Sub Workbook_BeforeClose(Cancel As Boolean)
+    'フォーム閉じておく
     FormSub.Hide
     
+    'SubManager初期化
     Set SubManager = Nothing
     
+    '規定のワークシート以外を削除する
     Call DeleteSheetInRule
     
+    '終了時に不安定になるため、MsgBoxを使用しない
+    MsgBox "AddinSub Workbook_BeforeClose" & vbCr & "指定以外のワークシートは削除しました。"
 End Sub
 
+'規定のワークシート以外を削除する
+'手動で規定以外のワークシートを削除することもできる
 Private Sub DeleteSheetInRule()
-    Application.DisplayAlerts = False
+    Application.DisplayAlerts = False 'アラート不要
     
     Dim ArrSheets As Variant
-    ArrSheets = Array("RssConn")
+    ArrSheets = Array("Sheet1")
     
     Dim Ws As Worksheet
     Dim SheetName As Variant
     For Each Ws In ThisWorkbook.Sheets
         For Each SheetName In ArrSheets
-            If Ws.Name = "RssConn" Then
-                Call Ws.Cells.Clear
+            If Ws.Name = SheetName Then
+                Call Ws.Cells.Clear '念のためセルクリア
                 GoTo Skip
             End If
             Ws.Delete

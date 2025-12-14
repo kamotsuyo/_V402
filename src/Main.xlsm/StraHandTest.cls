@@ -77,7 +77,7 @@ End Sub
 
 '=============Straã§í =============
 
-Private Sub iSTRA_Init(Brand_ As SubProject.iBRAND, DealType_ As SubProject.En_DealType)
+Private Sub iSTRA_Init(Brand_ As Sub402.iBRAND, DealType_ As Sub402.En_DealType)
     Set myBrand = Brand_
     myDeayType = DealType_
     
@@ -121,7 +121,7 @@ Private Property Get iSTRA_isOutSideHours() As Boolean
     End Select
     iSTRA_isOutSideHours = Result
 End Property
-Private Property Get iSTRA_DealType() As SubProject.En_DealType
+Private Property Get iSTRA_DealType() As Sub402.En_DealType
     iSTRA_DealType = myDeayType
 End Property
 Private Property Get iSTRA_MAXORDERQUANTITY() As Integer
@@ -130,7 +130,7 @@ End Property
 Private Property Get iSTRA_Name() As String
     iSTRA_Name = TypeName(Me) & ":" & myBrand.PetName & ":" & myDeayType
 End Property
-Private Property Get iSTRA_AutoExit() As SubProject.iAUTOEXIT
+Private Property Get iSTRA_AutoExit() As Sub402.iAUTOEXIT
     'Ç»Ç…Ç‡ãLèqÇµÇ»ÇØÇÍÇŒNothingÇ…Ç»ÇÈ
 '    Set iSTRA_AutoExit = New iAUTOEXITType1
 End Property
@@ -143,7 +143,7 @@ End Property
 Private Property Get iSTRA_AliveCount() As Long
     iSTRA_AliveCount = getStraAliveCount(Me)
 End Property
-Private Property Get iSTRA_Brand() As SubProject.iBRAND
+Private Property Get iSTRA_Brand() As Sub402.iBRAND
     Set iSTRA_Brand = myBrand
 End Property
 Private Property Get iSTRA_StanderdMargin() As Long

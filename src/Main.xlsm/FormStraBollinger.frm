@@ -20,6 +20,7 @@ Attribute VB_Exposed = False
 
 
 
+
 Option Explicit
 
 Private DicListItem As Dictionary 'Key:SerialNO , Item:Array

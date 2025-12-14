@@ -15,7 +15,9 @@ Implements iPOSITION
 '規定のStanderd損益になればExitするためのイベント受信用
 'ダミーの場合はFuture,Stock両方必要：(先物のダミー、株式のダミーどちらも対応するので）
 Private WithEvents myFuture As Future
+Attribute myFuture.VB_VarHelpID = -1
 Private WithEvents myStock As Stock
+Attribute myStock.VB_VarHelpID = -1
 
 Private SerialNO As String
 
@@ -23,7 +25,7 @@ Private myAutoExit As iAUTOEXIT 'iAUTOEXIT
 Private myOrder As iORDER
 Private OpenPrice As Long
 
-Private Sub iPOSITION_Init(Order_ As SubProject.iORDER, OpenDate_ As String, OpenPrice_ As String)
+Private Sub iPOSITION_Init(Order_ As Sub402.iORDER, OpenDate_ As String, OpenPrice_ As String)
     Set myOrder = Order_
     OpenPrice = OpenPrice_
     
@@ -44,9 +46,9 @@ Private Sub iPOSITION_Init(Order_ As SubProject.iORDER, OpenDate_ As String, Ope
     '-----------------
     Call DicPosition.Add(SerialNO, Me)
     
-    Debug.Print "DummyPosition　iPOSITION_Init", myBrand.BrandName, typename(mybrand)
+    Debug.Print "DummyPosition　iPOSITION_Init", myBrand.BrandName, TypeName(myBrand)
 End Sub
-Private Property Get iPOSITION_myStra() As SubProject.iSTRA
+Private Property Get iPOSITION_myStra() As Sub402.iSTRA
 
 End Property
 Private Property Get iPOSITION_OrderNO() As String
@@ -113,7 +115,7 @@ End Sub
 'イベント受信
 '------------------
 Private Sub myFuture_Change(Future_ As Future)
-    debug.print "DummyPosition myFuture_Change" ,future_.tehoricprice
+    Debug.Print "DummyPosition myFuture_Change", Future_.tehoricprice
     Call CheckExit(Future_)
 End Sub
 

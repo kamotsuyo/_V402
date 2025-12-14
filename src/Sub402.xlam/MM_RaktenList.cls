@@ -17,8 +17,8 @@ Public WithEvents OListAlive As Worksheet
 Attribute OListAlive.VB_VarHelpID = -1
 Public WithEvents PList As Worksheet
 Attribute PList.VB_VarHelpID = -1
-Public WithEvents EXlist As Worksheet
-Attribute EXlist.VB_VarHelpID = -1
+Public WithEvents EXList As Worksheet
+Attribute EXList.VB_VarHelpID = -1
 
 'ファイルログ用
 'Private myOlistLog As PrintLog
@@ -95,8 +95,8 @@ Private Sub Init()
     '---------------
     'EXList
     '---------------
-    Set EXlist = getMySheet("EXList")
-    With EXlist
+    Set EXList = getMySheet("EXList")
+    With EXList
         .Range("a1").Formula = "=RssFOPExecutionList()"
 '        .Visible = xlSheetHidden '非表示
     End With
@@ -119,18 +119,18 @@ End Sub
 Private Sub IDList_Change(ByVal Target As Range)
     If isDataRange(Target) = False Then Exit Sub
 
-    Dim arr As Variant
-    arr = Target
+    Dim Arr As Variant
+    Arr = Target
     
     Dim SerialNO As String
     Dim OrderNO As String
     Dim Result As String
 
     Dim i As Integer
-    For i = LBound(arr, 1) To UBound(arr, 1)
-        SerialNO = arr(i, 1)
-        OrderNO = arr(i, 2)
-        Result = arr(i, 3)
+    For i = LBound(Arr, 1) To UBound(Arr, 1)
+        SerialNO = Arr(i, 1)
+        OrderNO = Arr(i, 2)
+        Result = Arr(i, 3)
         
         '2度受信される
         '1回目はシリアルナンバーのみ受信：このときはOrderNOは"-",Resultは""である
@@ -169,21 +169,21 @@ Private Sub OList_Change(ByVal Target As Range)
     Dim StopCondition As String
     Dim BrandCode As String
        
-    Dim arr As Variant
-    arr = Target
+    Dim Arr As Variant
+    Arr = Target
     Dim i As Integer
-    For i = LBound(arr, 1) To UBound(arr, 1)
+    For i = LBound(Arr, 1) To UBound(Arr, 1)
         
         'ステータス変更時にイベント発行する
-        OrderNO = arr(i, 1)
-        BuySell = arr(i, 2)
-        Quantity = arr(i, 3)
-        Price = arr(i, 4)
-        OrderType = arr(i, 5)
-        Status = arr(i, 6)
-        StopStatus = arr(i, 7)
-        StopCondition = arr(i, 8)
-        BrandCode = arr(i, 9)
+        OrderNO = Arr(i, 1)
+        BuySell = Arr(i, 2)
+        Quantity = Arr(i, 3)
+        Price = Arr(i, 4)
+        OrderType = Arr(i, 5)
+        Status = Arr(i, 6)
+        StopStatus = Arr(i, 7)
+        StopCondition = Arr(i, 8)
+        BrandCode = Arr(i, 9)
         
         '-------------
         'イベント発火
@@ -218,15 +218,15 @@ Private Sub PList_Change(ByVal Target As Range)
     Dim ClosedQuantity As String
     Dim OpenPrice  As String
 
-    Dim arr As Variant
-    arr = Target
+    Dim Arr As Variant
+    Arr = Target
     
     Dim i As Integer
-    For i = LBound(arr, 1) To UBound(arr, 1)
+    For i = LBound(Arr, 1) To UBound(Arr, 1)
 
         CurrentRow = Target.Row + (i - 1) 'これが現在の受信中データ行である(データ行数を付加する[i]はArrが１オリジンなので-1している)
 
-        Select Case arr(i, 1)    '１列目のセルで判定
+        Select Case Arr(i, 1)    '１列目のセルで判定
             Case ""
                 '削除行の受信
                 
@@ -240,12 +240,12 @@ Private Sub PList_Change(ByVal Target As Range)
                     '----------------------------
                     '新規ポジションが追加された
                     '----------------------------
-                    BrandCode = arr(i, 1)
-                    BuySell = arr(i, 4)
-                    OpenDate = arr(i, 5)
-                    OpenQuantity = arr(i, 6)
-                    ClosedQuantity = arr(i, 7)
-                    OpenPrice = arr(i, 8)
+                    BrandCode = Arr(i, 1)
+                    BuySell = Arr(i, 4)
+                    OpenDate = Arr(i, 5)
+                    OpenQuantity = Arr(i, 6)
+                    ClosedQuantity = Arr(i, 7)
+                    OpenPrice = Arr(i, 8)
                     
                     '-----------------------
                     'クローズオーダー自動発行
@@ -295,7 +295,7 @@ Private Sub CheckBackOrder(BrandCode_ As String, OpenDate_ As String, OpenPrice_
     If myDicBackOrder.Count = 0 Then Exit Sub
     
     Dim myOrderNO As String 'DicBackOrderの格納キーでもある
-    Dim myOrder As Sub402.iORDER
+    Dim myOrder As SubProject.iORDER
 
     Dim i As Integer
     For i = 0 To myDicBackOrder.Count - 1 'ディクショナリは０オリジン :古い順に走査

@@ -14,16 +14,17 @@ Option Explicit
 '2025/12/12
 '*************************
 
-Private WithEvents SubMan As SubProject.MM_SubManager
+Private WithEvents SubMan As Sub402.MM_SubManager
 Attribute SubMan.VB_VarHelpID = -1
+
 
 Private Sub Workbook_Open()
 
     Me.Windows.Application.Width = 500
     Me.Windows.Application.Height = 500
     
-    Set SubMan = SubProject.SubManager
-    
+    Set SubMan = Sub402.SubManager
+
 End Sub
 
 Private Sub Workbook_BeforeClose(Cancel As Boolean)
@@ -31,7 +32,7 @@ Private Sub Workbook_BeforeClose(Cancel As Boolean)
 End Sub
 
 '-----------------
-'SubProject
+'Sub402
 '-----------------
 Private Sub SubMan_CodeResolved()
 

@@ -27,7 +27,8 @@ Event ReConnect()
 
 Private Sub Class_Initialize()
     '記述済のワークシートをインスタンスセット
-    Set mySheet = ThisWorkbook.Sheets("RssConn")
+'    Set mySheet = ThisWorkbook.Sheets("RssConn")
+    Set mySheet = getMySheet("Conn", ThisWorkbook)
     With mySheet
         .Range("a1").Formula = "=RssFOPCapacityList()"
 '        .Visible = xlSheetHidden '非表示

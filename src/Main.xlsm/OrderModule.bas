@@ -103,6 +103,8 @@ Public Function getNewOrder(Stra_ As iSTRA, Quantity_ As Long) As iORDER
     
 End Function
 
+
+
 'V303追加
 'ストラテジ内部で新規ディール発行の際に使用
 'MM_RaktenListのCheckBackOrderメソッドからCallされる
@@ -114,7 +116,7 @@ Public Sub CreateNewPosition(Order_ As iORDER, OpenDate_ As String, OpenPrice_ A
     Dim myPosition As iPOSITION
     If TypeOf Order_ Is FutureOrder Then Set myPosition = New FuturePosition
     If TypeOf Order_ Is StockOrder Then Set myPosition = New StockPosition
-    If TypeOf Order_ Is DummyOrder Then Set myPosition = New DummyPosition  
+    If TypeOf Order_ Is DummyOrder Then Set myPosition = New DummyPosition
     
     Call myPosition.Init(Order_, OpenDate_, OpenPrice_)
 

@@ -70,7 +70,7 @@ End Sub
 
 '[iORDER]共通プロパティ
 '=========================
-Private Sub iORDER_Init(Stra_ As SubProject.iSTRA, Quantity_ As String)
+Private Sub iORDER_Init(Stra_ As Sub402.iSTRA, Quantity_ As String)
     '注釈：オーダーロックは前段階のgetNewDeal内でTrueにセット済。ここでは不要
     '--------------
     'シリアルナンバー発行する
@@ -101,7 +101,7 @@ Private Sub iORDER_Init(Stra_ As SubProject.iSTRA, Quantity_ As String)
     isAlive = True
     
 End Sub
-Private Sub iORDER_PublishOpen(BuySell_ As SubProject.En_Buysell, Price_ As Long)
+Private Sub iORDER_PublishOpen(BuySell_ As Sub402.En_Buysell, Price_ As Long)
 
     BuySell = BuySell_
     Price = Price_
@@ -129,7 +129,7 @@ End Property
 Private Property Get iORDER_OrderNO() As String
     iORDER_OrderNO = OrderNO
 End Property
-Private Property Get iORDER_BuySell() As SubProject.En_Buysell
+Private Property Get iORDER_BuySell() As Sub402.En_Buysell
     iORDER_BuySell = BuySell
 End Property
 Private Property Get iORDER_Quantity() As Long

@@ -10,10 +10,12 @@ Public MMBrand As MM_Brand
 Public MMTec As MM_Tec
 Public MMStra As MM_Stra
 
+
 '------------------
 'プログラム開始
 '------------------
 Public Sub Start()
+
     Set CollStra = New Collection
     Set DickOorder = New Dictionary
     Set DicPosition = New Dictionary
@@ -26,8 +28,8 @@ Public Sub Start()
     
     
     '!!以下のプロパティ宣言はMainModuleにて宣言済
-    Set MMBrand = New MM_Brand
     Set MMRaktenList = New MM_RaktenList
+    Set MMBrand = New MM_Brand
     Set MMTec = New MM_Tec
     Set MMStra = New MM_Stra
     

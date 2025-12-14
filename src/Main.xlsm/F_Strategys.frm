@@ -17,6 +17,7 @@ Attribute VB_Exposed = False
 
 
 
+
 Option Explicit
 '**********************
 'CollStraを走査して登録済みのストラテジ一覧を作成する
